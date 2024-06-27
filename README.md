@@ -23,7 +23,7 @@ MyFirstMod is a Stardew Valley mod that provides various functionalities to enha
    ```
 
 ## Copy the mod files to your Stardew Valley Mods directory:
-cp bin/Debug/net6.0/MyFirstMod.dll "/path/to/Stardew Valley/Mods/MyFirstMod"
+`cp bin/Debug/net6.0/BensMod.dll "/path/to/Stardew Valley/Mods/BensMod"`
 
 ## Usage
   1. Launch Stardew Valley through SMAPI.  

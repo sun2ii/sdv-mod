@@ -1,0 +1,10 @@
+{
+  "Name": "My First Mod",
+  "Author": "Your Name",
+  "Version": "1.0.0",
+  "Description": "This is my first Stardew Valley mod.",
+  "UniqueID": "YourName.MyFirstMod",
+  "EntryDll": "MyFirstMod.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
+}

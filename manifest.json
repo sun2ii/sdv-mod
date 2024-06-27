@@ -1,10 +1,10 @@
 {
-  "Name": "My First Mod",
-  "Author": "Your Name",
+  "Name": "Ben's Mod",
+  "Author": "sun2ii",
   "Version": "1.0.0",
-  "Description": "This is my first Stardew Valley mod.",
-  "UniqueID": "YourName.MyFirstMod",
-  "EntryDll": "MyFirstMod.dll",
+  "Description": "8 Keyboard Shortcuts for my First Stardew Valley Mod",
+  "UniqueID": "sun2ii.bensmod",
+  "EntryDll": "bensmod.dll",
   "MinimumApiVersion": "3.0.0",
   "UpdateKeys": []
 }

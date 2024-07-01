@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using StardewModdingAPI;
 using StardewValley;
 using StardewModdingAPI.Events;
@@ -21,63 +25,87 @@ namespace MyFirstMod
 
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
-            if (e.Button == SButton.Plus && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            if (e.Button == SButton.OemPlus && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 GiveSpecificFish();
+                Monitor.Log("Shift + + pressed", LogLevel.Info);
             }
             // Check if the Shift key and '-' key are pressed
-            else if (e.Button == SButton.Minus && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            else if (e.Button == SButton.OemMinus && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 CheckCompletionProgress();
+                Monitor.Log("Shift + - pressed", LogLevel.Info);
             }
-            else if (e.Button == SButton.OpenBracket && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            else if (e.Button == SButton.OemQuotes && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            {
+                LogFishData();
+                Monitor.Log("Shift + ' pressed", LogLevel.Info);
+            }
+            else if (e.Button == SButton.OemOpenBrackets && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 Monitor.Log("Shift + [ pressed", LogLevel.Info);
             }
-            else if (e.Button == SButton.CloseBracket && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            else if (e.Button == SButton.OemCloseBrackets && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 // Add your specific action here
                 Monitor.Log("Shift + ] pressed", LogLevel.Info);
             }
-            else if (e.Button == SButton.Semicolon && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            else if (e.Button == SButton.OemSemicolon && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 Monitor.Log("Shift + ; pressed", LogLevel.Info);
             }
-            else if (e.Button == SButton.Apostrophe && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
-            {
-                Monitor.Log("Shift + ' pressed", LogLevel.Info);
-            }
-            else if (e.Button == SButton.Comma && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            else if (e.Button == SButton.OemComma && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 Monitor.Log("Shift + , pressed", LogLevel.Info);
             }
-            else if (e.Button == SButton.Period && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
+            else if (e.Button == SButton.OemPeriod && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 Monitor.Log("Shift + . pressed", LogLevel.Info);
             }
+        }
 
-            private void CheckCompletionProgress()
+        private void CheckCompletionProgress()
+        {
+            var stats = Game1.stats;
+            uint itemsShipped = stats.ItemsShipped;
+            uint fishCaught = stats.FishCaught;
+
+            // Display messages in the chat box
+            // Game1.addHUDMessage(new HUDMessage($"Items Shipped: {itemsShipped}", 2));
+            Monitor.Log($"Stats: {stats}", LogLevel.Info);
+            Monitor.Log($"Items Shipped: {itemsShipped}", LogLevel.Info);
+            Monitor.Log($"Fish Caught: {fishCaught}", LogLevel.Info);
+        }
+
+        private void GiveSpecificFish()
+        {
+            string fishId = "163";
+            var fish = new StardewValley.Object(fishId, 1);
+            Game1.player.addItemByMenuIfNecessary(fish);
+            Monitor.Log("You have received a Legend Fish!", LogLevel.Info);
+        }
+
+        private void LogFishData()
+        {
+            try
             {
-                var stats = Game1.stats;
-                uint itemsShipped = stats.ItemsShipped;
-                uint fishCaught = stats.FishCaught;
+                IDictionary<int, string> fishInfo = this.Helper.GameContent.Load<Dictionary<int, string>>("Data/Fish");
+                // Define the path where you want to save the JSON file
+                string jsonFilePath = "/fishInfo.json";
 
-                // Display messages in the chat box
-                Game1.addHUDMessage(new HUDMessage($"Items Shipped: {itemsShipped}", 3));
-                Game1.addHUDMessage(new HUDMessage($"Fish Caught: {fishCaught}", 3));
+                // Serialize the dictionary to JSON
+                string jsonString = JsonSerializer.Serialize(fishInfo, new JsonSerializerOptions { WriteIndented = true });
 
-                // Calculate a simple progress percentage (example)
-                double progress = (itemsShipped >= 1 ? 0.5 : 0) + (fishCaught >= 1 ? 0.5 : 0);
-                Game1.addHUDMessage(new HUDMessage($"Completion progress: {progress * 100}%", 3));
+                // Write the JSON string to a file
+                File.WriteAllText(jsonFilePath, jsonString);
+
+                // Optional: Log the success message
+                Monitor.Log("Fish info has been exported to " + jsonFilePath);
             }
-
-            private void GiveSpecificFish()
+            catch (Exception ex)
             {
-                // Example: Give the player a Legend Fish (ID 163)
-                int fishId = 163;  // ID for the Legend Fish
-                var fish = new StardewValley.Object("163", 1);
-                Game1.player.addItemByMenuIfNecessary(fish);
-                Monitor.Log("You have received a Legend Fish!", LogLevel.Info);
+                Monitor.Log($"Error logging fish data: {ex.Message}", LogLevel.Error);
             }
         }
     }
+}

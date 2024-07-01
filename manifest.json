@@ -1,10 +1,9 @@
 {
-  "Name": "Ben's Mod",
-  "Author": "sun2ii",
-  "Version": "1.0.0",
-  "Description": "8 Keyboard Shortcuts for my First Stardew Valley Mod",
-  "UniqueID": "sun2ii.bensmod",
-  "EntryDll": "bensmod.dll",
-  "MinimumApiVersion": "3.0.0",
-  "UpdateKeys": []
+    "Name": "BensMod",
+    "Author": "Ben Basuni",
+    "Version": "1.0.0",
+    "Description": "My first Stardew Valley mod.",
+    "UniqueID": "benbasuni.BensMod",
+    "EntryDll": "sdv-mod.dll",
+    "MinimumApiVersion": "3.0.0"
 }

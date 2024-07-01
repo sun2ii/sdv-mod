@@ -1,9 +1,10 @@
 {
-    "Name": "BensMod",
-    "Author": "Ben Basuni",
-    "Version": "1.0.0",
-    "Description": "My first Stardew Valley mod.",
-    "UniqueID": "benbasuni.BensMod",
-    "EntryDll": "sdv-mod.dll",
-    "MinimumApiVersion": "3.0.0"
+  "Name": "BensMod",
+  "Author": "Ben Basuni",
+  "Version": "1.0.0",
+  "Description": "A mod for exporting fish data to JSON.",
+  "UniqueID": "ben.basuni.BensMod",
+  "EntryDll": "BensMod.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
 }

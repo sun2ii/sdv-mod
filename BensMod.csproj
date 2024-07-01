@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>sdv-mod</AssemblyName>
-    <RootNamespace>sdv-mod</RootNamespace>
+    <AssemblyName>BensMod</AssemblyName>
+    <RootNamespace>BensMod</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />

@@ -20,7 +20,7 @@ namespace MyFirstMod
 
         private void OnDayStarted(object sender, EventArgs e)
         {
-            Monitor.Log("New Day Started ! Hi Emy and Yui !", LogLevel.Debug);
+            Monitor.Log("New Day Started! Hi Emy and Yui!", LogLevel.Debug);
         }
 
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
@@ -30,7 +30,6 @@ namespace MyFirstMod
                 GiveSpecificFish();
                 Monitor.Log("Shift + + pressed", LogLevel.Info);
             }
-            // Check if the Shift key and '-' key are pressed
             else if (e.Button == SButton.OemMinus && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
                 CheckCompletionProgress();
@@ -38,30 +37,10 @@ namespace MyFirstMod
             }
             else if (e.Button == SButton.OemQuotes && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
             {
-                LogFishData();
+                OnAssetRequested();
                 Monitor.Log("Shift + ' pressed", LogLevel.Info);
             }
-            else if (e.Button == SButton.OemOpenBrackets && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
-            {
-                Monitor.Log("Shift + [ pressed", LogLevel.Info);
-            }
-            else if (e.Button == SButton.OemCloseBrackets && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
-            {
-                // Add your specific action here
-                Monitor.Log("Shift + ] pressed", LogLevel.Info);
-            }
-            else if (e.Button == SButton.OemSemicolon && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
-            {
-                Monitor.Log("Shift + ; pressed", LogLevel.Info);
-            }
-            else if (e.Button == SButton.OemComma && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
-            {
-                Monitor.Log("Shift + , pressed", LogLevel.Info);
-            }
-            else if (e.Button == SButton.OemPeriod && (e.IsDown(SButton.LeftShift) || e.IsDown(SButton.RightShift)))
-            {
-                Monitor.Log("Shift + . pressed", LogLevel.Info);
-            }
+            // You can add more functionality for other key combinations here
         }
 
         private void CheckCompletionProgress()
@@ -70,9 +49,6 @@ namespace MyFirstMod
             uint itemsShipped = stats.ItemsShipped;
             uint fishCaught = stats.FishCaught;
 
-            // Display messages in the chat box
-            // Game1.addHUDMessage(new HUDMessage($"Items Shipped: {itemsShipped}", 2));
-            Monitor.Log($"Stats: {stats}", LogLevel.Info);
             Monitor.Log($"Items Shipped: {itemsShipped}", LogLevel.Info);
             Monitor.Log($"Fish Caught: {fishCaught}", LogLevel.Info);
         }
@@ -85,26 +61,31 @@ namespace MyFirstMod
             Monitor.Log("You have received a Legend Fish!", LogLevel.Info);
         }
 
-        private void LogFishData()
+        private void OnAssetRequested()
         {
             try
             {
-                IDictionary<int, string> fishInfo = this.Helper.GameContent.Load<Dictionary<int, string>>("Data/Fish");
+                // Texture2D portraits = helper.Content.Load<Texture2D>("Portraits/Abigail", ContentSource.GameContent);
+
+                IDictionary<int, string> fishInfo = Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
+                // IDictionary<int, string> fishInfo = this.Helper.GameContent.Load<Dictionary<int, string>>("Data/Fish");
+
                 // Define the path where you want to save the JSON file
-                string jsonFilePath = "/fishInfo.json";
+                // string jsonFilePath = Path.Combine(fishInfo, "abigail-portrait.json");
 
-                // Serialize the dictionary to JSON
-                string jsonString = JsonSerializer.Serialize(fishInfo, new JsonSerializerOptions { WriteIndented = true });
+                // // Serialize the dictionary to JSON
+                // string jsonString = JsonSerializer.Serialize(fishInfo, new JsonSerializerOptions { WriteIndented = true });
 
-                // Write the JSON string to a file
-                File.WriteAllText(jsonFilePath, jsonString);
+                // // Write the JSON string to a file
+                // File.WriteAllText(jsonFilePath, jsonString);
 
-                // Optional: Log the success message
-                Monitor.Log("Fish info has been exported to " + jsonFilePath);
+                // Log the success message
+                // Monitor.Log("Fish info has been exported to " + jsonFilePath, LogLevel.Info);
+                Monitor.Log(fishInfo);
             }
             catch (Exception ex)
             {
-                Monitor.Log($"Error logging fish data: {ex.Message}", LogLevel.Error);
+                Monitor.Log($"Error exporting fish info: {ex.Message}", LogLevel.Error);
             }
         }
     }
